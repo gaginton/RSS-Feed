@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Skeleton </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-size: 30px;
+            margin: 10px;
+        }
+
+        ul {
+            list-style: none
+        }
+
+        .rss-item {
+            background: black;
+            color: white;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container-fluid">
+        <label>RSS Feed: </label>
+        <ul id="rss-feed">
+
+        </ul>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var news_headline = document.createElement("li");
+            var rss_list = document.getElementById("rss-feed");
+            rss_list.appendChild(news_headline);
+            $.ajax({
+                type: "GET",
+                url: "/rss_display",
+                data: {},
+                dataType: "json",
+                success: function (headline) {
+                    if (headline) {
+                        for (var i = 0; i < headline.length; i++) {
+                            var rss_feed = document.getElementById('rss-feed');
+                            rss_feed.innerHTML += '<li class="rss-item"> Title: ' + headline[i][
+                                "title"
+                            ] + '; <br/> Link: ' + headline[i]["link"] + '<br/><br/>   </li>';
+                        }
+                        console.log("worked!")
+                    }
+                },
+                error: function (msg) {
+                    console.log("error");
+                },
+            });
+        });
+    </script>
+</body>
+
+</html>
